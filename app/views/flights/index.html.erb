@@ -1,0 +1,20 @@
+<h1>Flights Page</h1>
+
+<div>
+  <h2>Pick Departing airport</h2>
+  <%= form_with url: '/flights', method: :get do |form| %>
+    <%= form.select(:start_code, @airport_options) %>
+
+    <h2>Pick Destination</h2>
+    <%= form.collection_select :to_airport, @flights, :end_code, :end_code%>
+
+    <h2>Number of Passengers</h2>
+    <%= form.select(:passengers, @passengers_options) %>
+
+    <h2>Departing time</h2>
+    <%= form.select(:start_time, @flight_options) %>
+  <% end %>
+</div>
+
+
+

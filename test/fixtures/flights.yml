@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_code: MyString
+  end_code: MyString
+
+two:
+  start_code: MyString
+  end_code: MyString

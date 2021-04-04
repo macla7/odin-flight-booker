@@ -1,20 +1,32 @@
 <h1>Flights Page</h1>
 
 <div>
-  <h2>Pick Departing airport</h2>
+  <h3>Pick Departing airport</h3>
   <%= form_with url: '/flights', method: :get do |form| %>
     <%= form.select(:start_code, @airport_options) %>
 
-    <h2>Pick Destination</h2>
+    <h3>Pick Destination</h3>
     <%= form.collection_select :to_airport, @flights, :end_code, :end_code%>
 
-    <h2>Number of Passengers</h2>
+    <h3>Number of Passengers</h3>
     <%= form.select(:passengers, @passengers_options) %>
 
-    <h2>Departing time</h2>
-    <%= form.select(:start_time, @flight_options) %>
+    <h3>Departing time</h3>
+    <%= form.select(:start_time, @flight_options.uniq) %>
+
+    <br /><br />
+    <%= form.submit 'Find Flight' %>
   <% end %>
 </div>
+<%= params %>
+
+<h2>Elligible Flights</h2>
+<% @elligible.each do |flight| %>
+  <p>Flight number: <%= flight.id %></p>
+  <p>From Airport: <%= flight.start_code %></p>
+  <p>To Airport: <%= flight.end_code %></p>
+  <p>Start Time: <%= flight.start_time %></p>
+<% end %>
 
 
 

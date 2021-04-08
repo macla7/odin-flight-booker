@@ -11,6 +11,18 @@
   </head>
 
   <body>
+    <% if flash[:notice] %>
+      <div><%= notice %></div>
+    <% end %>
+    <% if flash[:alert] %>
+      <div><%= alert %></div>
+    <% end %>
+    <% if flash[:error] %>
+      <div><%= flash[:error] %></div>
+    <% end %>
+    <nav>
+      <%= button_to 'Flights Search', flights_path, method: :get %>
+    </nav>
     <%= yield %>
   </body>
 </html>

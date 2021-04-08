@@ -1,31 +1,46 @@
 <h1>Flights Page</h1>
 
 <div>
-  <h3>Pick Departing airport</h3>
   <%= form_with url: '/flights', method: :get do |form| %>
-    <%= form.select(:start_code, @airport_options) %>
+    <h3>Pick Departing airport</h3>
+    <%= form.select :start_code, @airport_options, {:selected => params[:start_code]} %>
 
+    <!-- Think I need JS to make uniq options for this one... -->
     <h3>Pick Destination</h3>
-    <%= form.collection_select :to_airport, @flights, :end_code, :end_code%>
+    <%= form.collection_select :to_airport, @flights, :end_code, :end_code, {:selected => params[:to_airport]}%>
 
     <h3>Number of Passengers</h3>
-    <%= form.select(:passengers, @passengers_options) %>
+    <%= form.select :passengers, @passengers_options, {:selected => params[:passengers]} %>
 
     <h3>Departing time</h3>
-    <%= form.select(:start_time, @flight_options.uniq) %>
+    <%= form.select :start_time, @flight_options.uniq, {:selected => params[:start_time]} %>
 
     <br /><br />
     <%= form.submit 'Find Flight' %>
   <% end %>
 </div>
-<%= params %>
 
 <h2>Elligible Flights</h2>
 <% @elligible.each do |flight| %>
-  <p>Flight number: <%= flight.id %></p>
+  <h3>Flight Number: <%= flight.id %></h3>
   <p>From Airport: <%= flight.start_code %></p>
   <p>To Airport: <%= flight.end_code %></p>
   <p>Start Time: <%= flight.start_time %></p>
+<% end %>
+
+<%= params %>
+
+<h3>Select Flight Number:</h3>
+<%= form_with url: 'bookings', method: :get do |form2| %>
+
+  <%= form2.collection_radio_buttons :flight, @elligible, :id, :id %>
+
+  <%= form2.hidden_field :start_code, value: params[:start_code] %>
+  <%= form2.hidden_field :to_airport, value: params[:to_airport] %>
+  <%= form2.hidden_field :passengers, value: params[:passengers] %>
+  <%= form2.hidden_field :start_time, value: params[:start_time] %>
+  <br /><br />
+  <%= form2.submit 'Book Flight' %>
 <% end %>
 
 

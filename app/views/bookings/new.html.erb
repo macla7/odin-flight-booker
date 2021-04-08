@@ -1,0 +1,28 @@
+<h1>Bookings#new</h1>
+
+<h2>Booking details</h2>
+<p>Flight Number: <%= params[:flight] %></p>
+<p>From Airport: <%= params[:start_code] %></p>
+<p>To Airport: <%= params[:to_airport] %></p>
+<p>Passengers: <%= params[:passengers] %></p>
+<p>Start Time: <%= @flights[params[:flight].to_i - 1].start_time %></p>
+<br />
+
+<%= form_with model: @booking do |form| %>
+  <% i = 1 %>
+  <%= form.hidden_field :flight_id, value: params[:flight] %>
+  <%= form.fields_for :passengers do |addy_form| %>
+    <p>Passenger <%=i%>:</p>
+
+    <%= addy_form.label :name, "Name:" %>
+    <%= addy_form.text_field :name %>
+
+    <br />
+    <%= addy_form.label :email, "Email Address:"%>
+    <%= addy_form.email_field :email %>
+
+    <br /><br />
+    <% i = i + 1 %>
+  <% end %>
+  <%= form.submit 'Create Booking' %>
+<% end %>

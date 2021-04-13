@@ -12,8 +12,18 @@
 
 ActiveRecord::Schema.define(version: 2021_04_07_115618) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "airports", force: :cascade do |t|
     t.string "airport_code"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "articles", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -25,11 +35,20 @@ ActiveRecord::Schema.define(version: 2021_04_07_115618) do
     t.index ["flight_id"], name: "index_bookings_on_flight_id"
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.string "commenter"
+    t.text "body"
+    t.bigint "article_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["article_id"], name: "index_comments_on_article_id"
+  end
+
   create_table "flights", force: :cascade do |t|
     t.string "start_code"
     t.string "end_code"
     t.datetime "start_time"
-    t.datetime "duration"
+    t.time "duration"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["end_code"], name: "index_flights_on_end_code"
@@ -45,4 +64,5 @@ ActiveRecord::Schema.define(version: 2021_04_07_115618) do
     t.index ["booking_id"], name: "index_passengers_on_booking_id"
   end
 
+  add_foreign_key "comments", "articles"
 end

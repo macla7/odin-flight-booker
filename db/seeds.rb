@@ -8,8 +8,8 @@
 
 flightstart = Time.now
 flightend = Time.new(2021, 5, 1) + 1.days
-flightstart2 = Time.now + 2.days - 13.hours
-flightend2 = Time.new(2021, 5, 1) + 4.days - 13.hours
+flightstart2 = Time.now + 2.days - 5.hours
+flightend2 = Time.new(2021, 5, 1) + 4.days - 5.hours
 flightstart3 = Time.now + 2.days
 flightend3 = Time.new(2021, 5, 1) + 4.days
 

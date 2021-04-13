@@ -10,7 +10,7 @@ class BookingsController < ApplicationController
     if @booking.save!
       flash[:notice] = "Made a new booking for #{params[:booking]['passengers_attributes']['0']['name']}'s Group!"
       redirect_to "/bookings/#{@booking.id}"
-      # PassengerMailer.with(booking: params[:booking]).thank_you.deliver_now
+      PassengerMailer.with(booking: params[:booking]).thank_you.deliver_now
     else
       flash.now[:error] = "Shiiit"
     end

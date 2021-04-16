@@ -64,6 +64,20 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
+  aws_credentials = Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+  Aws::Rails.add_action_mailer_delivery_method(:aws_ses, credentials: aws_credentials, region: ENV['AWS_REGION'])
+  
+  config.action_mailer.delivery_method = :aws_ses
+#  config.action_mailer.delivery_method = :smtp
+#   config.action_mailer.smtp_settings = {
+#   port: 587,
+#   address: ENV['SMTP_ADDRESS'],
+#   user_name: ENV['SMTP_USER_NAME'],
+#   password: ENV['SMTP_PASSWORD'],
+#   authentication: :plain,
+#   enable_starttls_auto: true
+#}
+
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false

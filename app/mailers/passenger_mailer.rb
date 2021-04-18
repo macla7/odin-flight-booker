@@ -10,57 +10,62 @@ class PassengerMailer < ApplicationMailer
       @flight_id = passenger.booking.flight_id
     end
     puts 'ME TOOOO'
-    # # mail(to: @booker['email'], subject: 'Thanks for Booking with Fly High!')
-    sender = "mitchclarkmapie@hotmail.com"
-    recipient = "MitchelClark1997@outlook.com"
-    awsregion = "ap-southeast-2"
-    subject = "You've Booked a Flight!"
-    htmlbody =
-    '<h1>Booked!</h1>'\
-    '<p>This email was sent with <a href="https://aws.amazon.com/ses/">'\
-    'Amazon SES</a> using the <a href="https://aws.amazon.com/sdk-for-ruby/">'\
-    'AWS SDK for Ruby</a>.'
-    textbody = "This email was sent with Amazon SES using the AWS SDK for Ruby."
-    encoding = "UTF-8"
-    ses = Aws::SES::Client.new(
-      region: awsregion,
-      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
-    )
-    begin
-
-      # Provide the contents of the email.
-      resp = ses.send_email({
-        destination: {
-          to_addresses: [
-            recipient,
-          ],
-        },
-        message: {
-          body: {
-            html: {
-              charset: encoding,
-              data: htmlbody,
+    puts params[:booking]['passengers_attributes']
+        # # mail(to: @booker['email'], subject: 'Thanks for Booking with Fly High!')
+    sender = "hello@shiftmarket.com.au"
+    params[:booking]['passengers_attributes'].each do |key, value|
+      puts key
+      puts value
+      recipient = value['email'].to_s
+      awsregion = "ap-southeast-2"
+      subject = "#{value['name'].to_s}'s Flight Details"
+      htmlbody =
+      '<h1>Flight Booked!</h1>'\
+      "<p>Hi #{value['name'].to_s}! We're looking forward to flying together! "\
+      'See our flights search page <a href="http://www.shiftmarket.com.au">'\
+      'here</a>.'
+      textbody = "This email was sent with Amazon SES using the AWS SDK for Ruby."
+      encoding = "UTF-8"
+      ses = Aws::SES::Client.new(
+        region: awsregion,
+        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])
+        )
+      begin
+      
+        # Provide the contents of the email.
+        resp = ses.send_email({
+          destination: {
+            to_addresses: [
+              recipient,
+            ],
+          },
+          message: {
+            body: {
+              html: {
+                charset: encoding,
+                data: htmlbody,
+              },
+              text: {
+                charset: encoding,
+                data: textbody,
+              },
             },
-            text: {
+            subject: {
               charset: encoding,
-              data: textbody,
+              data: subject,
             },
           },
-          subject: {
-            charset: encoding,
-            data: subject,
-          },
-        },
-      source: sender,
-      # Comment or remove the following line if you are not using 
-      # a configuration set
-      # configuration_set_name: configsetname,
-      })
-      puts "Email sent!"
-    
-      # If something goes wrong, display an error message.
-    rescue Aws::SES::Errors::ServiceError => error
-      puts "Email not sent. Error message: #{error}"
+        source: sender,
+        # Comment or remove the following line if you are not using 
+        # a configuration set
+        # configuration_set_name: configsetname,
+        })
+        puts "Email sent!"
+      
+        # If something goes wrong, display an error message.
+      rescue Aws::SES::Errors::ServiceError => error
+        puts "Email not sent. Error message: #{error}"
+      end
     end
   end
 end

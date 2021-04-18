@@ -10,11 +10,7 @@ class PassengerMailer < ApplicationMailer
       @flight_id = passenger.booking.flight_id
     end
     puts 'ME TOOOO'
-    puts params
-    puts @flight_id
-    puts @booker
-    puts 'Can you see MEEEEEE'
-    mail(to: @booker['email'], subject: 'Thanks for Booking with Fly High!')
+    # # mail(to: @booker['email'], subject: 'Thanks for Booking with Fly High!')
     sender = "mitchclarkmapie@hotmail.com"
     recipient = "MitchelClark1997@outlook.com"
     awsregion = "ap-southeast-2"
@@ -26,10 +22,6 @@ class PassengerMailer < ApplicationMailer
     'AWS SDK for Ruby</a>.'
     textbody = "This email was sent with Amazon SES using the AWS SDK for Ruby."
     encoding = "UTF-8"
-    puts ENV['SMTP_ADDRESS']
-    puts ENV['SMTP_USER_NAME']
-    puts ENV['AWS_ACCESS_KEY_ID']
-    puts ENV['AWS_SECRET_ACCESS_KEY']
     ses = Aws::SES::Client.new(
       region: awsregion,
       credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY_ID'], ENV['AWS_SECRET_ACCESS_KEY'])

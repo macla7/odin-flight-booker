@@ -10,6 +10,7 @@ class PassengerMailer < ApplicationMailer
       @flight_id = passenger.booking.flight_id
     end
     puts 'ME TOOOO'
+    puts params
     puts params[:booking]['passengers_attributes']
         # # mail(to: @booker['email'], subject: 'Thanks for Booking with Fly High!')
     sender = "hello@shiftmarket.com.au"
@@ -22,7 +23,7 @@ class PassengerMailer < ApplicationMailer
       htmlbody =
       '<h1>Flight Booked!</h1>'\
       "<p>Hi #{value['name'].to_s}! We're looking forward to flying together! "\
-      'See our flights search page <a href="http://www.shiftmarket.com.au">'\
+      "See our flights search page <a href='http://www.shiftmarket.com.au/bookings/#{params[:booking_id]}''>"\
       'here</a>.'
       textbody = "This email was sent with Amazon SES using the AWS SDK for Ruby."
       encoding = "UTF-8"

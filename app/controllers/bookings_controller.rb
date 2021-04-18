@@ -15,7 +15,7 @@ class BookingsController < ApplicationController
       puts 'DO YOU SEE MEE'
       puts @booking.id
       puts 'DO YOU SEE MEE!'
-      PassengerMailer.with(booking: params[:booking]).thank_you.deliver_now
+      PassengerMailer.with(booking: params[:booking], booking_id: @booking.id).thank_you.deliver_now
     else
       flash.now[:error] = "Shiiit"
     end
